@@ -1,0 +1,22 @@
+import pandas as pd
+
+# CSV 파일 읽기
+data = pd.read_csv('C:/Users/STL_8/Desktop/test/new/test2.csv', encoding='cp949')
+
+# 컬럼 이름에서 공백 제거 (필요할 경우)
+data.columns = data.columns.str.strip()
+
+# 위도와 경도 데이터를 새로운 컬럼으로 할당
+data['Latitude'] = data['위도']
+data['Longitude'] = data['경도']
+
+
+# 숫자만 추출 (정규표현식 사용)
+data['Latitude'] = data['Latitude'].astype(str).str.extract(r'([+-]?\d+\.\d+)').astype(float)
+data['Longitude'] = data['Longitude'].astype(str).str.extract(r'([+-]?\d+\.\d+)').astype(float)
+
+# 결과 출력
+print(data[['Latitude', 'Longitude']])
+
+# 결과를 CSV 파일로 저장
+data.to_csv('C:/Users/STL_8/Desktop/test/import.csv', encoding='cp949', index=False)
